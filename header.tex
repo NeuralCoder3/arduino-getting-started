@@ -1,0 +1,82 @@
+\geometry{a4paper, top=25mm, left=20mm, right=20mm, bottom=25mm}
+
+% Warning box
+\newtcolorbox{warning}[1][]
+{
+  colframe=yellow!50!red,
+  colback=yellow!30,
+  coltitle=red!20!black,
+  title={Achtung!},
+  #1
+}
+
+\newtcolorbox{instruction}[1][]
+{
+  colframe=cyan!50!blue,
+  colback=cyan!40,
+  coltitle=blue!20!black,
+  title={Jetzt Du!},
+  #1
+}
+
+\newcommand{\hrefnote}[2]{\href{#1}{#2}\footnote{\url{#1}}}
+\newcommand{\hrefnoteinline}[2]{\href{#1}{#2} (\url{#1})}
+
+%% Define an Arduino style fore use later %%
+\lstdefinestyle{myArduino}{
+  language=Arduino,
+  %% Add other words needing highlighting below %%
+  morekeywords=[1]{},                  % [1] -> dark green
+  morekeywords=[2]{FILE_WRITE},        % [2] -> light blue
+  morekeywords=[3]{SD, File},          % [3] -> bold orange
+  morekeywords=[4]{open, exists},      % [4] -> orange
+  %% The lines below add a nifty box around the code %%
+  frame=shadowbox,
+  rulesepcolor=\color{arduinoBlue},
+}
+
+\lstMakeShortInline[style=myArduino]|
+\lstset{style=myArduino}
+
+% Patch from https://tex.stackexchange.com/questions/451532/recent-issues-with-lstlinebgrd-package-with-listings-after-the-latters-updates
+\makeatletter
+\let\old@lstKV@SwitchCases\lstKV@SwitchCases
+\def\lstKV@SwitchCases#1#2#3{}
+\makeatother
+\usepackage{lstlinebgrd}
+\makeatletter
+\let\lstKV@SwitchCases\old@lstKV@SwitchCases
+
+\lst@Key{numbers}{none}{%
+    \def\lst@PlaceNumber{\lst@linebgrd}%
+    \lstKV@SwitchCases{#1}%
+    {none:\\%
+     left:\def\lst@PlaceNumber{\llap{\normalfont
+                \lst@numberstyle{\thelstnumber}\kern\lst@numbersep}\lst@linebgrd}\\%
+     right:\def\lst@PlaceNumber{\rlap{\normalfont
+                \kern\linewidth \kern\lst@numbersep
+                \lst@numberstyle{\thelstnumber}}\lst@linebgrd}%
+    }{\PackageError{Listings}{Numbers #1 unknown}\@ehc}}
+\makeatother
+
+% https://tex.stackexchange.com/questions/8851/how-can-i-highlight-some-lines-from-source-code
+
+
+\newcommand{\sidebyside}[1]{
+\begin{minipage}{.5\textwidth}
+  \begin{center}
+    \includegraphics[width=.8\textwidth,
+        % cut 1 cm from the bottom
+        trim=0 .5cm 0 0, clip
+    ]{schaltung/#1/#1_schem.png}
+  \end{center}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+  \begin{center}
+    \includegraphics[width=.8\textwidth,
+        % cut 1 cm from the bottom
+        trim=0 0.5cm 0 0, clip
+    ]{schaltung/#1/#1_bb.png}
+  \end{center}
+\end{minipage}
+}

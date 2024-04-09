@@ -1,0 +1,10 @@
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+instructions.pdf
+*.synctex.gz
+Outline.txt
+*.xcf
+*_ignored/
